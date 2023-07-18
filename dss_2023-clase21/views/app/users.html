@@ -1,0 +1,35 @@
+
+  <div class="container">
+      <div class="col-md-9">
+        <div class="content">
+          <h1>Users</h1>
+          <div class="d-flex">
+            <input type="text" class="form-control me-2" id ="username" name="username" placeholder="Username">
+            <input type="password" class="form-control" id= "password" name="password" placeholder="Password">
+            <button class="btn btn-primary" onclick="addUser()">Submit</button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                ${data.users.map(fila => `
+                  <tr>
+                    <td scope="row" id="user_id_${fila.id}">${fila.id}</td>
+                    <td id = "user_username_${fila.id}">${fila.username}</td>
+                    <td><button type="button" class="btn btn-outline-danger" onclick = "deleteUser(${fila.id})">Borrar</button>
+                    <button type="button" class="btn btn-outline-warning" onclick = "editUser(${fila.id})">Editar</button></td>
+                  </tr>
+                `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+ 

@@ -1,0 +1,37 @@
+
+<div class="container">
+    <div class="col-md-9">
+      <div class="content">
+        <h1>Users</h1>
+        <div class="d-flex">
+          <input type="text" class="form-control me-2" id ="titulo" name="titulo" placeholder="Ingrese el título">
+          <textarea  class="form-control" id= "contenido" name="contenido" placeholder="Ingrese el contenido"></textarea>
+          <button class="btn btn-primary" onclick="addPost()">Submit</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Usuario</th>
+              <th scope="col">Tìtulo</th>
+              <th scope="col">Post</th>
+              <th scope="col">Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              ${data.posts.map(fila => `
+                <tr>
+                  <td scope="row">${fila.id}</td>
+                  <td>${fila.username}</td>
+                  <td>${fila.titulo}</td>
+                  <td>${fila.contenido}</td>
+                  <td><button type="button" class="btn btn-outline-danger" onclick = "deletePost(${fila.id})">Borrar</button></td>
+                </tr>
+              `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
