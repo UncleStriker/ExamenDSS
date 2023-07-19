@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      window.onload = () => {
+        const token = "${token}";
+        sessionStorage.setItem("token", token);
+        const userData = "${userData}";
+        sessionStorage.setItem("userData", userData);
+        const username = JSON.parse(userData);
+        console.log(username.username);
+        const username_show = (document.getElementById(
+          "username_show"
+        ).innerHTML = username.username);
+      };
+      const allUsers = () => {
+        const token = sessionStorage.getItem("token");
+        myInit = {
+          body: JSON.stringify(sessionStorage),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        };
+        url = "../allUsers";
+        fetch(url, myInit)
+          .then((response) => response.text())
+          .then((data) => {
+            const app = (document.getElementById("app").innerHTML = data);
+          });
+      };
+      const addUser = () => {
+        const token = sessionStorage.getItem("token");
+        const datos = {
+          _username: document.getElementById("username").value,
+          _password: document.getElementById("password").value,
+        };
+        const session = JSON.parse(sessionStorage.getItem("userData"));
+        const toSend = Object.assign(session, datos);
+        console.log(toSend);
+        myInit = {
+          body: JSON.stringify(toSend),
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        };
+        url = "../addUser";
+        fetch(url, myInit)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            allUsers();
+          });
+      };
+      const editUser = (id) => {
+        username = document.getElementById("usuarios_username_" + id).innerText;
+        console.log(username);
+      };
+      const deleteUser = (id) => {
+        const token = sessionStorage.getItem("token");
+        const datos = {
+          _id: id,
+        };
+        const session = JSON.parse(sessionStorage.getItem("userData"));
+        const toSend = Object.assign(session, datos);
+        console.log(toSend);
+        myInit = {
+          body: JSON.stringify(toSend),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        };
+        url = "../deleteUser";
+        fetch(url, myInit)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            allUsers();
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">CFT Confesiones</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Usuario</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Busqueda"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Busqueda
+          </button>
+        </form>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="sidebar">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" onclick="allUsers()">Usuarios</a>
+              </li>
+              <span class="navbar-text" id="username_show"> </span>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="content" id="app">
+        <h1>Social</h1>
+        <p>
+          ¡Bienvenido a tu tablero! Aquí puedes administrar tu sitio web o
+          aplicación. En el menú de la izquierda, encontrarás una variedad de
+          opciones para gestionar tu sitio web o aplicación. Puedes cambiar la
+          configuración de tu sitio web, agregar o editar contenido, y ver los
+          datos de análisis de tu sitio web.
+        </p>
+      </div>
+    </div>
+  </body>
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"
+  ></script>
+</html>
